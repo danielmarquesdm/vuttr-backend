@@ -6,9 +6,9 @@ export class ToolService {
     async execute(toolRequest: ToolRequest): Promise<Tool | Error> {
         const repo = getRepository(Tool);
 
-        if(await repo.findOne(toolRequest.title)) {
-            return new Error("Tool already exists");
-        }
+        // if(await repo.findOne(toolRequest.title)) {
+        //     return new Error("Tool already exists");
+        // }
 
         const tool = repo.create(toolRequest);
         await repo.save(tool);

@@ -1,4 +1,4 @@
-import { Entity, Column, CreateDateColumn, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn } from "typeorm";
 
 @Entity("tools")
 export class Tool {
@@ -10,8 +10,6 @@ export class Tool {
     link: string;
     @Column()
     description: string;
-    @Column()
+    @Column("varchar", {array: true})
     tags: string[];
-    @CreateDateColumn()
-    createdAt: Date;
 }
