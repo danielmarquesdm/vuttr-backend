@@ -1,5 +1,5 @@
 CREATE TABLE vuttr.tools (
-	id serial,
+	id serial primary key,
 	title varchar NOT NULL UNIQUE,
 	link varchar NULL,
 	description varchar NULL,
