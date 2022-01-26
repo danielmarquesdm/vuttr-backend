@@ -1,4 +1,5 @@
 import { Any, createQueryBuilder, getRepository, In } from "typeorm";
+import winston from "winston";
 import { Tool } from "../entities/Tool";
 
 type ToolRequest = {
@@ -23,9 +24,12 @@ export class ToolService {
 
     async getAll(tag, title) : Promise<Tool[] | Error>{
         const repo = getRepository(Tool);
-        // const result = await repo.find({where: {tags: } });
-        const result = createQueryBuilder(Tool)
-        .where(`${tag} = ANY (tags)`)
+        const logger = winston.createLogger();
+
+        logger.info("Preparando query")
+        
+        const result =  repo.createQueryBuilder()
+        .where(`${tag} = any(tags)`)
         .orWhere(`title = ${title}`)
         .getMany();
         
