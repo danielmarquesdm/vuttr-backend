@@ -1,4 +1,4 @@
-import { Any, getRepository, In } from "typeorm";
+import { Any, createQueryBuilder, getRepository, In } from "typeorm";
 import { Tool } from "../entities/Tool";
 
 type ToolRequest = {
@@ -21,20 +21,13 @@ export class ToolService {
         return tool;
     }
 
-    async getAll() : Promise<Tool[] | Error>{
+    async getAll(tag, title) : Promise<Tool[] | Error>{
         const repo = getRepository(Tool);
-        const result = await repo.find();
-        
-        return result;
-    }
-
-    async getByTag(tag) : Promise<Tool[] | Error> {
-        const repo = getRepository(Tool);
-        const result = await repo.find({where: `${tag} = ANY (tags)`});
-        
-        if(result == null) {
-            return new Error("There is no tool for the selected tag");
-        }
+        // const result = await repo.find({where: {tags: } });
+        const result = createQueryBuilder(Tool)
+        .where(`${tag} = ANY (tags)`)
+        .orWhere(`title = ${title}`)
+        .getMany();
         
         return result;
     }

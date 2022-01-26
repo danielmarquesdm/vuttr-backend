@@ -26,20 +26,11 @@ export class ToolController {
         const logger = winston.createLogger();
     
         logger.info("Starting request for getting all tools");
-
-        const result = await service.getAll();
-        return res.status(200).json(result);
-    }
-
-    async getByTag(req: Request, res: Response) {
-        const service = new ToolService();
-        const logger = winston.createLogger();
-
-        const tag = req.query.tag;
-    
-        logger.info("Starting request for getting tools by tag");
-
-        const result = await service.getByTag(tag);
+        const {tag, title} = req.query
+        // const tag = req.query.tag; 
+        // const title = req.query.title; 
+        
+        const result = await service.getAll(tag, title);
         return res.status(200).json(result);
     }
 }
