@@ -1,6 +1,6 @@
 CREATE TABLE vuttr.tools (
-	id serial primary key,
-	title varchar NOT NULL UNIQUE,
+	id serial constraint pk_id_tool primary key,
+	title varchar NULL UNIQUE,
 	link varchar NULL,
 	description varchar NULL,
 	tags varchar[] NULL
