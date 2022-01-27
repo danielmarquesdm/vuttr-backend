@@ -35,4 +35,14 @@ export class ToolService {
         
         return result;
     }
+
+    async delete(id: string){
+        const repo = getRepository(Tool);
+        
+        if(!(await repo.findOne(id))) {
+            return new Error("Tool doesn't exists");
+        }
+
+        await repo.delete(id);
+    }
 }

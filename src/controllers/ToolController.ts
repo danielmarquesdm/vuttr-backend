@@ -21,16 +21,32 @@ export class ToolController {
         return res.status(201).json(result);
     }
 
-    async getAll(req: Request, res: Response) { 
+    async getAll(req: Request, res: Response) {
+        const tag = req.query.tag ? req.query.tag : ""
+        const title = req.query.title ? req.query.title : "" 
         const service = new ToolService();
         const logger = winston.createLogger();
     
         logger.info("Starting request for getting all tools");
         
-        const tag = req.query.tag ? req.query.tag : ""
-        const title = req.query.title ? req.query.title : ""
-
         const result = await service.getAll(tag, title);
         return res.status(200).json(result);
+    }
+
+    async delete(req: Request, res: Response) {
+        const {id} = req.params;
+
+        const service = new ToolService();
+        const logger = winston.createLogger();
+    
+        logger.info("Starting request for deleting a tool by id");
+
+        const result = await service.delete(id);
+
+        if(result instanceof Error) {
+            return res.status(400).json();
+        }
+
+        return res.status(204).json();
     }
 }
