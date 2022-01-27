@@ -22,14 +22,15 @@ export class ToolController {
     }
 
     async getAll(req: Request, res: Response) {
-        const tag = req.query.tag ? req.query.tag : ""
-        const title = req.query.title ? req.query.title : "" 
+        const tag = req.query.tag 
+        const title = req.query.title
+        
         const service = new ToolService();
         const logger = winston.createLogger();
     
         logger.info("Starting request for getting all tools");
         
-        const result = await service.getAll(tag, title);
+        const result = await service.getAll(req.query);
         return res.status(200).json(result);
     }
 

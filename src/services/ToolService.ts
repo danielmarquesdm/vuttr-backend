@@ -22,17 +22,23 @@ export class ToolService {
         return tool;
     }
 
-    async getAll(tag, title) : Promise<Tool[] | Error>{
+    async getAll(queryParams) : Promise<Tool[] | Error>{
         const repo = getRepository(Tool);
         const logger = winston.createLogger();
 
         logger.info("Preparando query")
         
-        const result =  repo.createQueryBuilder()
-        .where(`${tag} = any(tags)`)
-        .orWhere(`title = ${title}`)
-        .getMany();
-        
+        const query =  repo.createQueryBuilder("tools");
+
+        if(queryParams.tag != null) {
+            logger.info("Param tag está presente");
+            query.orWhere(":tag = any(tools.tags)", {tag: queryParams.tag});
+        } else if(queryParams.title != null) {
+            logger.info("Param title está presente");
+            query.orWhere("tools.title = :title", {title: queryParams.title});
+        }
+        logger.info("Executando query");
+        const result = query.getMany();
         return result;
     }
 
