@@ -1,3 +1,4 @@
+import { ParsedQs } from "qs";
 import { Any, createQueryBuilder, getRepository, In } from "typeorm";
 import winston from "winston";
 import { Tool } from "../entities/Tool";
@@ -22,7 +23,7 @@ export class ToolService {
         return tool;
     }
 
-    async getAll(queryParams) : Promise<Tool[] | Error>{
+    async getAll(queryParams: ParsedQs) : Promise<Tool[] | Error>{
         const repo = getRepository(Tool);
         const logger = winston.createLogger();
 
