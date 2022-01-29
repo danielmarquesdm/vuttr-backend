@@ -22,9 +22,6 @@ export class ToolController {
     }
 
     async getAll(req: Request, res: Response) {
-        const tag = req.query.tag 
-        const title = req.query.title
-        
         const service = new ToolService();
         const logger = winston.createLogger();
     
